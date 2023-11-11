@@ -18,6 +18,7 @@ while running:
             running = False
 
     keys = pygame.key.get_pressed()  # Obtenir toutes les touches pressées au clavier
+    joueur.move_direction(keys)
 
     joueur.draw(window)
     pygame.display.flip()
