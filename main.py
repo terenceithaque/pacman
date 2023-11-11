@@ -17,19 +17,23 @@ running = True  # Le jeu est en cours d'exécution
 pause = False  # Le jeu est-il en pause ?
 
 
-def set_pause(key):
+def set_pause(event):
     "Mettre le jeu en pause"
     global pause
 
-    if key[pygame.K_SPACE]:
-        if not pause:
-            pause = True
-            print("jeu mis en pause")
-            pygame.time.wait(10)
-        else:
-            pause = False
-            print("Fin de la pause")
-            pygame.time.wait(10)
+    if not pause:
+        pause = True
+        print("jeu mis en pause")
+        pause_font = pygame.font.Font(None, 36)
+        str_pause = "Pause !"
+        pause_text = pause_font.render(str_pause, True, (255, 255, 255))
+        window.blit(pause_text, (387, 239))
+        pygame.display.flip()
+
+    else:
+        window.fill((0, 0, 0))
+        pause = False
+        print("Fin de la pause")
 
 
 while running:
@@ -37,15 +41,16 @@ while running:
 
     keys = pygame.key.get_pressed()  # Obtenir toutes les touches pressées au clavier
 
-    set_pause(keys)
+   # set_pause(keys)
 
     window.fill((0, 0, 0))
     for evenement in pygame.event.get():  # Pour chaque évènement intercepté durant le jeu
         if evenement.type == pygame.QUIT:  # Si le joueur veut quitter la partie
             running = False
 
-        if evenement.type == TIMER_EVENT:
-            set_pause(keys)
+        if evenement.type == pygame.KEYUP:
+            if evenement.key == pygame.K_SPACE:
+                set_pause(evenement)
 
     if not pause:
         joueur.move_direction(keys)
