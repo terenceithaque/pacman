@@ -1,5 +1,6 @@
 # Joueur
 import pygame
+from tkinter import simpledialog
 
 
 class Joueur(pygame.sprite.Sprite):
@@ -7,10 +8,13 @@ class Joueur(pygame.sprite.Sprite):
 
     def __init__(self, chemin_image):
         super().__init__()
+        self.pseudo = simpledialog.askstring(
+            "Saisissez votre pseudo", "Renseignez votre pseudo:")  # Pseudo du joueur
+        self.pseudo_font = pygame.font.Font(None, 20)
         # Charger en mémoire l'image du joueur
         self.image = pygame.image.load(chemin_image)
         # Réduire la taille de l'image à 50x50
-        self.image = pygame.transform.scale(self.image, (50, 50))
+        self.image = pygame.transform.scale(self.image, (30, 30))
         self.rect = self.image.get_rect()
         # Direction dans laquelle le joueur se déplace. 0 = neutre.
         self.direction = 0
@@ -48,8 +52,8 @@ class Joueur(pygame.sprite.Sprite):
         if self.direction == 2:
             print("Je me déplace vers le haut")
             self.rect.y -= pas
-            if self.rect.y < -20:
-                self.rect.y = -20
+            if self.rect.y < 0:
+                self.rect.y = 0
 
             print("self.rect.y :", self.rect.y)
 
@@ -74,5 +78,11 @@ class Joueur(pygame.sprite.Sprite):
                 self.rect.x = 690
             print("self.rect.x :", self.rect.x)
 
+    def display_pseudo(self, screen):
+        "Afficher le pseudo du joueur à l'écran"
+        pseudo_joueur = self.pseudo_font.render(
+            self.pseudo, True, (255, 255, 255))
+        screen.blit(pseudo_joueur, (self.rect.x, self.rect.y))
+
     def draw(self, screen):
-        screen.blit(self.image, (self.rect.x, self.rect.y))
+        screen.blit(self.image, (self.rect.x, self.rect.y + 15))
