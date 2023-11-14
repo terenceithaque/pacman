@@ -1,7 +1,10 @@
 # Script principal du jeu
 import pygame
 from joueur import *
+from fantome import *
+from labyrinthe import *
 pygame.init()
+pygame.mixer.init()
 
 TIMER_EVENT = pygame.USEREVENT + 1
 
@@ -11,6 +14,17 @@ pygame.display.set_caption("Pacman !")
 
 image_joueur = "assets/images/pacman.jpg"
 joueur = Joueur(image_joueur)  # Créer un joueur
+image_fantome = "assets/images/ghost.png"
+
+noms_fantomes = ["Joe", "Jack", "William", "Averell"]
+liste_fantomes = []
+fantomes = pygame.sprite.Group()
+for i in range(len(noms_fantomes)):
+    fantome = Fantome(
+        nom=noms_fantomes[i], image=image_fantome, joueur_a_attraper=joueur)
+    fantomes.add(fantome)
+    liste_fantomes.append(fantome)
+# fantome = Fantome(nom="Joe", image=image_fantome, joueur_a_attraper=joueur)
 
 
 running = True  # Le jeu est en cours d'exécution
@@ -36,14 +50,25 @@ def set_pause(event):
         print("Fin de la pause")
 
 
+def play_music():
+    pygame.mixer.music.play(-1)
+
+
+labyrinthe = Labyrinthe(joueur, liste_fantomes)
+# labyrinthe.creer(window)
+chemin_musique = "assets/musique/original_theme.mp3"
+pygame.mixer.music.load(chemin_musique)
+play_music()
+
+
 while running:
     pygame.time.set_timer(TIMER_EVENT, 500)
 
     keys = pygame.key.get_pressed()  # Obtenir toutes les touches pressées au clavier
+    # labyrinthe.hit_wall()
 
    # set_pause(keys)
 
-    window.fill((0, 0, 0))
     for evenement in pygame.event.get():  # Pour chaque évènement intercepté durant le jeu
         if evenement.type == pygame.QUIT:  # Si le joueur veut quitter la partie
             running = False
@@ -54,7 +79,14 @@ while running:
 
     if not pause:
         joueur.move_direction(keys)
+
+        window.fill((0, 0, 0))
         joueur.display_pseudo(window)
 
         joueur.draw(window)
+        for fantome in fantomes:
+
+            fantome.move_direction()
+            fantome.afficher_nom(window)
+            fantome.draw(window)
         pygame.display.flip()

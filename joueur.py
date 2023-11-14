@@ -22,9 +22,12 @@ class Joueur(pygame.sprite.Sprite):
         self.y = 0  # Position y de départ du joueur
         self.rect.x = self.x  # Position x actuelle du joueur
         self.rect.y = self.y  # Position y actuelle du joueur
+        self.cannot_move = False  # Le joueur peut-il avancer ?
 
     def move_direction(self, key):
         "Déplacer le joueur vers le haut, le bas, l'avant et l'arrière"
+        if self.cannot_move:
+            self.direction = 0
         if key[pygame.K_UP]:  # Si le joueur presse la touche "flèche vers le haut"
             self.direction = 2
             self.deplacer(3)
@@ -85,4 +88,6 @@ class Joueur(pygame.sprite.Sprite):
         screen.blit(pseudo_joueur, (self.rect.x, self.rect.y))
 
     def draw(self, screen):
+        screen.fill((0, 0, 0), self.rect)
         screen.blit(self.image, (self.rect.x, self.rect.y + 15))
+        # screen.fill((0, 0, 0))
