@@ -1,12 +1,12 @@
 # Fantôme
 import pygame
-from random import randint
+from random import randint, random
 
 
 class Fantome(pygame.sprite.Sprite):
     "Fantôme qui doit attraper le joueur"
 
-    def __init__(self, nom, image, joueur_a_attraper):
+    def __init__(self, nom, image, joueur_a_attraper, instances):
         super().__init__()
         self.joueur_a_attraper = joueur_a_attraper
         # Charger en mémoire l'image du fantôme
@@ -24,6 +24,8 @@ class Fantome(pygame.sprite.Sprite):
         self.nom = nom  # Nom du fantôme
         # Direction dans laquelle se dirige le fantôme. 0 = neutre.
         self.direction = 0
+        # Permet de repérer les autres instances de cette classe. instances est une liste
+        self.instances = instances
 
         self.nom_font = pygame.font.Font(None, 20)
         self.cannot_move = False
@@ -35,9 +37,21 @@ class Fantome(pygame.sprite.Sprite):
         else:
             self.direction = randint(-2, 2)
 
+        for instance in self.instances:
+            if instance.nom != self.nom:  # On identifie si l'instance vérifiée est un autre fantôme par son nom
+                if self.rect.x == instance.rect.x or self.rect.y == instance.rect.y:
+                    print(
+                        f"{self.nom} est entré en collision avec {instance.nom} et change de direction.")
+                    # Choisir une autre direction
+                    self.direction = randint(-2, 2)
+
         if self.champ_vision_x >= 10 or self.champ_vision_y >= 10:
-            if self.rect.x != self.joueur_a_attraper.rect.x and self.rect.y != self.joueur_a_attraper.rect.y:
-                self.direction = self.joueur_a_attraper.direction
+            if random() <= 0.8:  # 80 % de chances que le fantôme poursuive le joueur s'il le repère. Cela fait comme s'il le "perdait de vue" après un certain moment.
+                if self.rect.x != self.joueur_a_attraper.rect.x and self.rect.y != self.joueur_a_attraper.rect.y:
+                    print(f"{self.nom} vous a repéré !")
+                    self.direction = self.joueur_a_attraper.direction
+            else:
+                print(f"{self.nom} vous a perdu de vue !")
 
         self.move(3)
 

@@ -85,9 +85,9 @@ class Joueur(pygame.sprite.Sprite):
         "Afficher le pseudo du joueur à l'écran"
         pseudo_joueur = self.pseudo_font.render(
             self.pseudo, True, (255, 255, 255))
-        screen.blit(pseudo_joueur, (self.rect.x, self.rect.y))
+        screen.blit(pseudo_joueur, (self.rect.x, self.rect.y - 15))
 
     def draw(self, screen):
         screen.fill((0, 0, 0), self.rect)
-        screen.blit(self.image, (self.rect.x, self.rect.y + 15))
+        screen.blit(self.image, (self.rect.x, self.rect.y))
         # screen.fill((0, 0, 0))

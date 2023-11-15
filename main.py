@@ -21,7 +21,7 @@ liste_fantomes = []
 fantomes = pygame.sprite.Group()
 for i in range(len(noms_fantomes)):
     fantome = Fantome(
-        nom=noms_fantomes[i], image=image_fantome, joueur_a_attraper=joueur)
+        nom=noms_fantomes[i], image=image_fantome, joueur_a_attraper=joueur, instances=liste_fantomes)
     fantomes.add(fantome)
     liste_fantomes.append(fantome)
 # fantome = Fantome(nom="Joe", image=image_fantome, joueur_a_attraper=joueur)
@@ -78,10 +78,11 @@ while running:
                 set_pause(evenement)
 
     if not pause:
-        joueur.move_direction(keys)
-
         window.fill((0, 0, 0))
+
         joueur.display_pseudo(window)
+
+        joueur.move_direction(keys)
 
         joueur.draw(window)
         for fantome in fantomes:
