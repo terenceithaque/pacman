@@ -8,10 +8,10 @@ class Labyrinthe:
 
     def __init__(self, joueur, fantomes):
         self.forme = [[1, 1, 1, 1, 1],
-                      [0, 0, 0, 0, 0],
-                      [0, 1, 1, 1, 0],
-                      [0, 1, 1, 1, 0],
-                      [0, 1, 1, 1, 0],
+                      [1, 0, 0, 0, 1],
+                      [1, 0, 1, 0, 1],
+                      [1, 0, 0, 0, 1],
+                      [1, 0, 0, 0, 1],
                       [1, 1, 1, 1, 1]]  # Forme du labyrinthe sous forme de liste. 0 : le joueur ou les fantômes peuvent passer. 1 : mur, le joueur ou les fantômes ne peuvent pas passer.
         self.joueur = joueur
 
@@ -19,13 +19,16 @@ class Labyrinthe:
 
     def creer(self, screen):
         "Générer un labyrinthe"
-        for i, liste in enumerate(self.forme):
-            for j, nombre in enumerate(liste):
-                if nombre == 1:
-                    pygame.draw.line(
-                        screen, (200, 200, 200), (j * 60, i * 60), ((j + 1) * 60, (i + 1) * 60))
+        cell_size = 115
+        for i, row in enumerate(self.forme):
+            for j, cell in enumerate(row):
+                print("j :", j)
+                print("cell :", cell)
+                if cell > 0:
+                    pygame.draw.rect(screen, (200, 200, 200), pygame.Rect(
+                        j*cell_size, i*cell_size, cell_size, cell_size))
 
-                self.update(screen)
+        self.update(screen)
 
     def hit_wall(self):
         "Vérifier si une entité entre en collision avec un mur"

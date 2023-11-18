@@ -30,17 +30,21 @@ class Joueur(pygame.sprite.Sprite):
             self.direction = 0
         if key[pygame.K_UP]:  # Si le joueur presse la touche "flèche vers le haut"
             self.direction = 2
+
             self.deplacer(3)
         if key[pygame.K_DOWN]:  # Si le joueur presse la touche "flèche vers le bas"
             self.direction = -2
+
             self.deplacer(3)
 
         if key[pygame.K_LEFT]:  # Si le joueur presse la touche "flèche vers la gauche"
             self.direction = -1
+
             self.deplacer(3)
 
         if key[pygame.K_RIGHT]:  # Si le joueur presse la touche "flèche vers la droite"
             self.direction = 1
+
             self.deplacer(3)
 
         if not key:  # Si le joueur ne presse aucune touche
