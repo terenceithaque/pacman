@@ -7,19 +7,20 @@ class Labyrinthe:
     "Labyrinthe"
 
     def __init__(self, joueur, fantomes):
-        self.forme = [[1, 1, 1, 1, 1],
-                      [1, 0, 0, 0, 1],
-                      [1, 0, 1, 0, 1],
-                      [1, 0, 0, 0, 1],
-                      [1, 0, 0, 0, 1],
-                      [1, 1, 1, 1, 1]]  # Forme du labyrinthe sous forme de liste. 0 : le joueur ou les fantômes peuvent passer. 1 : mur, le joueur ou les fantômes ne peuvent pas passer.
+        self.forme = [[1, 1, 1, 1, 1, 1, 1],
+                      [1, 0, 0, 0, 0, 0, 1],
+                      [1, 0, 0, 0, 0, 0, 1],
+                      [1, 0, 0, 0, 0, 0, 1],
+                      [1, 0, 0, 0, 0, 0, 1],
+                      [1, 0, 0, 0, 0, 0, 1],
+                      [1, 1, 1, 1, 1, 1, 1]]  # Forme du labyrinthe sous forme de liste. 0 : le joueur ou les fantômes peuvent passer. 1 : mur, le joueur ou les fantômes ne peuvent pas passer.
         self.joueur = joueur
 
         self.fantomes = fantomes
 
     def creer(self, screen):
         "Générer un labyrinthe"
-        cell_size = 115
+        cell_size = 120
         for i, row in enumerate(self.forme):
             for j, cell in enumerate(row):
                 print("j :", j)
