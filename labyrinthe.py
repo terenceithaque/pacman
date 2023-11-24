@@ -26,7 +26,7 @@ class Labyrinthe:
                 print("j :", j)
                 print("cell :", cell)
                 if cell > 0:
-                    pygame.draw.rect(screen, (200, 200, 200), pygame.Rect(
+                    pygame.draw.rect(screen, (0,0, 255, 1), pygame.Rect(
                         j*cell_size, i*cell_size, cell_size, cell_size))
 
         self.update(screen)
