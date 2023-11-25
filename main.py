@@ -45,9 +45,9 @@ def set_pause(event):
         pause = True
         print("jeu mis en pause")
         pause_font = pygame.font.Font(None, 36)
-        str_pause = "Pause !"
+        str_pause = "Pause ! (Touche espace pour reprendre)"
         pause_text = pause_font.render(str_pause, True, (255, 255, 255))
-        window.blit(pause_text, (387, 239))
+        window.blit(pause_text, (300, 239))
         pygame.display.flip()
 
     else:

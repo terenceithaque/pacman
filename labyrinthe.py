@@ -9,10 +9,10 @@ class Labyrinthe:
     def __init__(self, joueur, fantomes):
         self.forme = [[1, 1, 1, 1, 1, 1, 1],
                       [1, 0, 0, 0, 0, 0, 1],
-                      [1, 0, 0, 0, 0, 0, 1],
-                      [1, 0, 0, 0, 0, 0, 1],
-                      [1, 0, 0, 0, 0, 0, 1],
-                      [1, 0, 0, 0, 0, 0, 1],
+                      [1, 0, 1, 0, 0, 0, 1],
+                      [1, 0, 1, 0, 0, 0, 1],
+                      [1, 0, 1, 0, 1, 0, 1],
+                      [1, 0, 0, 0, 1, 0, 1],
                       [1, 1, 1, 1, 1, 1, 1]]  # Forme du labyrinthe sous forme de liste. 0 : le joueur ou les fantômes peuvent passer. 1 : mur, le joueur ou les fantômes ne peuvent pas passer.
         self.joueur = joueur
 
@@ -21,13 +21,14 @@ class Labyrinthe:
     def creer(self, screen):
         "Générer un labyrinthe"
         cell_size = 120
+        cell_width = 20
         for i, row in enumerate(self.forme):
             for j, cell in enumerate(row):
                 print("j :", j)
                 print("cell :", cell)
                 if cell > 0:
                     pygame.draw.rect(screen, (0,0, 255, 1), pygame.Rect(
-                        j*cell_size, i*cell_size, cell_size, cell_size))
+                        j*cell_size, i*cell_size, cell_width, cell_size))
 
         self.update(screen)
 
