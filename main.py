@@ -61,6 +61,7 @@ def play_music():
 
 
 labyrinthe = Labyrinthe(joueur, liste_fantomes)
+
 pygame.display.update()
 chemin_musique = "assets/musique/original_theme.mp3"
 pygame.mixer.music.load(chemin_musique)
@@ -85,17 +86,22 @@ while running:
 
     if not pause:
         window.fill((0, 0, 0))
-        labyrinthe.creer(window)
 
+        labyrinthe.creer(window)
+        
         joueur.display_pseudo(window)
 
         joueur.move_direction(keys)
 
         joueur.draw(window)
 
+
         for fantome in fantomes:
 
             fantome.move_direction()
             fantome.afficher_nom(window)
             fantome.draw(window)
+
+    
         pygame.display.flip()
+

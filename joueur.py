@@ -1,6 +1,6 @@
 # Joueur
 import pygame
-from tkinter import simpledialog
+from tkinter import simpledialog, messagebox
 
 
 class Joueur(pygame.sprite.Sprite):

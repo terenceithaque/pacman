@@ -7,28 +7,34 @@ class Labyrinthe:
     "Labyrinthe"
 
     def __init__(self, joueur, fantomes):
-        self.forme = [[1, 1, 1, 1, 1, 1, 1],
-                      [1, 0, 0, 0, 0, 0, 1],
-                      [1, 0, 1, 0, 0, 0, 1],
-                      [1, 0, 1, 0, 0, 0, 1],
-                      [1, 0, 1, 0, 1, 0, 1],
-                      [1, 0, 0, 0, 1, 0, 1],
-                      [1, 1, 1, 1, 1, 1, 1]]  # Forme du labyrinthe sous forme de liste. 0 : le joueur ou les fantômes peuvent passer. 1 : mur, le joueur ou les fantômes ne peuvent pas passer.
+        self.forme = [[3, 3, 3, 3, 3, 3],
+                      [1, 2, 2, 2, 2, 1],
+                      [1, 0, 0, 0, 0, 1],
+                      [1, 0, 0, 0, 0, 1],
+                      [1, 0, 0, 1, 0, 1],
+                      [1, 0, 0, 1, 0, 1],
+                      [2, 2, 2, 2, 2, 1]]  # Forme du labyrinthe sous forme de liste. 0 : le joueur ou les fantômes peuvent passer. 1 : mur, le joueur ou les fantômes ne peuvent pas passer. 2 : pareil que 1, mais pour le haut et le bas du labyrinthe.
         self.joueur = joueur
 
         self.fantomes = fantomes
 
     def creer(self, screen):
         "Générer un labyrinthe"
-        cell_size = 120
-        cell_width = 20
+        cell_size = 90
+        cell_width = cell_size
         for i, row in enumerate(self.forme):
+            print("colonne :", row)
             for j, cell in enumerate(row):
                 print("j :", j)
                 print("cell :", cell)
-                if cell > 0:
+                if cell > 0 and cell < 2:
+                    print("Dessiné à l'horizontale !")
                     pygame.draw.rect(screen, (0,0, 255, 1), pygame.Rect(
                         j*cell_size, i*cell_size, cell_width, cell_size))
+                    
+                if cell == 2:
+                    print("Dessiné à la verticale !")
+                    pygame.draw.rect(screen,(0,0,255,1), pygame.Rect(j*cell_size, i*cell_width, cell_size,cell_width))    
 
         self.update(screen)
 
