@@ -12,8 +12,8 @@ class Labyrinthe:
         self.forme = [[3, 3, 3, 3, 3, 3],
                       [1, 2, 2, 2, 2, 1],
                       [1, 0, 0, 0, 0, 1],
-                      [1, 0, 0, 0, 0, 1],
-                      [1, 0, 0, 0, 0, 1],
+                      [1, 0, 0, 1, 0, 1],
+                      [1, 0, 0, 1, 0, 1],
                       [1, 0, 0, 0, 0, 1],
                       [2, 2, 2, 2, 2, 1]]  # Forme du labyrinthe sous forme de liste. 0 : le joueur ou les fantômes peuvent passer. 1 : mur, le joueur ou les fantômes ne peuvent pas passer. 2 : pareil que 1, mais pour le haut et le bas du labyrinthe.
         self.joueur = joueur
@@ -22,10 +22,10 @@ class Labyrinthe:
 
     def creer(self, screen):
         "Générer un labyrinthe"
-        cell_height = 80
-        cell_width = 140
+        cell_height = 100
+        cell_width = 100
 
-        border_width = 0
+        border_width = 10
 
         cell_size = cell_height * cell_width
         for i, row in enumerate(self.forme):
@@ -35,13 +35,11 @@ class Labyrinthe:
                 print("cell :", cell)
                 if cell > 0 and cell < 2:
                     print("Dessiné à l'horizontale !")
-                    pygame.draw.rect(screen, (0,0, 255, 1), pygame.Rect(
-                        j*cell_width-border_width, i*cell_height, cell_width-border_width, cell_height))
+                    pygame.draw.line(screen, (0,0, 255, 1), (j*cell_width, i*cell_height), (j*cell_width+border_width, i*cell_height), border_width)
                     
                 if cell == 2:
                     print("Dessiné à la verticale !")
-                    pygame.draw.rect(screen,(0,0,255,1), pygame.Rect(j*cell_width-border_width, i*cell_height, cell_width-border_width,cell_height))    
-
+                    pygame.draw.line(screen,(0,0,255,1), (j*cell_width, i*cell_height), (j*cell_width+border_width, i*cell_height), border_width)
         self.update(screen)
 
     def hit_wall(self):

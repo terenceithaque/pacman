@@ -18,7 +18,7 @@ pygame.display.set_caption("Pacman !")
 window = pygame.display.set_mode((800, 600))  # Créer une fenêtre de jeu
 pygame.display.set_caption("Pacman !")
 
-image_joueur = "assets/images/pacman.jpg"
+image_joueur = "assets/images/pacman_droite.jpg"
 joueur = Joueur(image_joueur)  # Créer un joueur
 image_fantome = "assets/images/ghost.png"
 
@@ -91,7 +91,7 @@ while running:
         
         joueur.display_pseudo(window)
 
-        joueur.move_direction(keys)
+        joueur.move_direction(keys, window)
 
         joueur.draw(window)
 

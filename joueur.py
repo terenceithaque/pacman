@@ -3,11 +3,13 @@ import pygame
 from tkinter import simpledialog, messagebox
 from players import *
 
+
 class Joueur(pygame.sprite.Sprite):
     "Joueur"
 
     def __init__(self, chemin_image):
         super().__init__()
+        self.images = self.preload_images(["assets/images/pacman_droite.jpg", "assets/images/pacman_bas.png", "assets/images/pacman_gauche.png", "assets/images/pacman_haut.png"]) # Précharger chaque sprite du joueur
         self.pseudo = self.demander_pseudo()
         self.pseudo_font = pygame.font.Font(None, 20)
         # Charger en mémoire l'image du joueur
@@ -27,7 +29,7 @@ class Joueur(pygame.sprite.Sprite):
         "Demander au joueur de remplir son pseudo"
         pseudo = simpledialog.askstring(
             "Saisissez votre pseudo", "Renseignez votre pseudo:")  # Pseudo du joueur
-        if pseudo == "":
+        if pseudo == "" or pseudo == None:
             pseudo = "Joueur anonyme"
             supprimer_dossier_joueur(pseudo) # Détruire tout dossier d'un joueur anonyme précédent
 
@@ -36,26 +38,38 @@ class Joueur(pygame.sprite.Sprite):
 
 
 
-    def move_direction(self, key):
+    def move_direction(self, key, window):
         "Déplacer le joueur vers le haut, le bas, l'avant et l'arrière"
         if self.cannot_move:
             self.direction = 0
         if key[pygame.K_UP]:  # Si le joueur presse la touche "flèche vers le haut"
             self.direction = 2
+            window.fill((0,0,0))
+            self.image = self.images[3]
+            self.image = pygame.transform.scale(self.image, (30, 30))
 
             self.deplacer(3)
         if key[pygame.K_DOWN]:  # Si le joueur presse la touche "flèche vers le bas"
             self.direction = -2
+            window.fill((0,0,0))
+            self.image = self.images[1]
+            self.image = pygame.transform.scale(self.image, (30, 30))
 
             self.deplacer(3)
 
         if key[pygame.K_LEFT]:  # Si le joueur presse la touche "flèche vers la gauche"
             self.direction = -1
+            window.fill((0,0,0))
+            self.image = self.images[2]
+            self.image = pygame.transform.scale(self.image, (30, 30))
 
             self.deplacer(3)
 
         if key[pygame.K_RIGHT]:  # Si le joueur presse la touche "flèche vers la droite"
             self.direction = 1
+            window.fill((0,0,0))
+            self.image = self.images[0]
+            self.image = pygame.transform.scale(self.image, (30, 30))
 
             self.deplacer(3)
 
@@ -103,7 +117,17 @@ class Joueur(pygame.sprite.Sprite):
             self.pseudo, True, (255, 255, 255))
         screen.blit(pseudo_joueur, (self.rect.x, self.rect.y - 15))
 
+    def preload_images(self, images):
+        "Précharger chaque image du joueur"
+        images_chargees = []
+        for image in images:
+            images_chargees.append(pygame.image.load(image))
+
+        return images_chargees    
+
     def draw(self, screen):
         screen.fill((0, 0, 0), self.rect)
         screen.blit(self.image, (self.rect.x, self.rect.y))
         # screen.fill((0, 0, 0))
+
+
