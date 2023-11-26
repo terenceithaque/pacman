@@ -1,15 +1,14 @@
 # Joueur
 import pygame
 from tkinter import simpledialog, messagebox
-
+from players import *
 
 class Joueur(pygame.sprite.Sprite):
     "Joueur"
 
     def __init__(self, chemin_image):
         super().__init__()
-        self.pseudo = simpledialog.askstring(
-            "Saisissez votre pseudo", "Renseignez votre pseudo:")  # Pseudo du joueur
+        self.pseudo = self.demander_pseudo()
         self.pseudo_font = pygame.font.Font(None, 20)
         # Charger en mémoire l'image du joueur
         self.image = pygame.image.load(chemin_image)
@@ -23,6 +22,19 @@ class Joueur(pygame.sprite.Sprite):
         self.rect.x = self.x  # Position x actuelle du joueur
         self.rect.y = self.y  # Position y actuelle du joueur
         self.cannot_move = False  # Le joueur peut-il avancer ?
+
+    def demander_pseudo(self):
+        "Demander au joueur de remplir son pseudo"
+        pseudo = simpledialog.askstring(
+            "Saisissez votre pseudo", "Renseignez votre pseudo:")  # Pseudo du joueur
+        if pseudo == "":
+            pseudo = "Joueur anonyme"
+            supprimer_dossier_joueur(pseudo) # Détruire tout dossier d'un joueur anonyme précédent
+
+        creer_dossier_joueur(pseudo)
+        return pseudo    
+
+
 
     def move_direction(self, key):
         "Déplacer le joueur vers le haut, le bas, l'avant et l'arrière"
