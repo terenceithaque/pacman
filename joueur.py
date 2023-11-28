@@ -44,32 +44,34 @@ class Joueur(pygame.sprite.Sprite):
             self.direction = 0
         if key[pygame.K_UP]:  # Si le joueur presse la touche "flèche vers le haut"
             self.direction = 2
-            window.fill((0,0,0))
             self.image = self.images[3]
             self.image = pygame.transform.scale(self.image, (30, 30))
+            #window.fill((0,0,0))
 
             self.deplacer(3)
         if key[pygame.K_DOWN]:  # Si le joueur presse la touche "flèche vers le bas"
             self.direction = -2
-            window.fill((0,0,0))
             self.image = self.images[1]
             self.image = pygame.transform.scale(self.image, (30, 30))
+            #window.fill((0,0,0))
 
             self.deplacer(3)
 
         if key[pygame.K_LEFT]:  # Si le joueur presse la touche "flèche vers la gauche"
             self.direction = -1
-            window.fill((0,0,0))
+            
             self.image = self.images[2]
             self.image = pygame.transform.scale(self.image, (30, 30))
+            #window.fill((0,0,0))
 
             self.deplacer(3)
 
         if key[pygame.K_RIGHT]:  # Si le joueur presse la touche "flèche vers la droite"
             self.direction = 1
-            window.fill((0,0,0))
             self.image = self.images[0]
             self.image = pygame.transform.scale(self.image, (30, 30))
+            #window.fill((0,0,0))
+
 
             self.deplacer(3)
 
@@ -119,9 +121,9 @@ class Joueur(pygame.sprite.Sprite):
 
     def preload_images(self, images):
         "Précharger chaque image du joueur"
-        images_chargees = []
-        for image in images:
-            images_chargees.append(pygame.image.load(image))
+        images_chargees = [] # On liste toute image chargée en mémoire
+        for image in images: # Pour chaque image qu'on doit charger
+            images_chargees.append(pygame.image.load(image)) # On charge chaque image et on l'ajoute à la liste
 
         return images_chargees    
 

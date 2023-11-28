@@ -3,6 +3,7 @@ import pygame
 from joueur import *
 from fantome import *
 from labyrinthe import *
+from tkinter import messagebox
 pygame.init()
 pygame.mixer.init()
 
@@ -27,7 +28,7 @@ liste_fantomes = []
 fantomes = pygame.sprite.Group()
 for i in range(len(noms_fantomes)):
     fantome = Fantome(
-        nom=noms_fantomes[i], image=image_fantome, joueur_a_attraper=joueur, instances=liste_fantomes)
+        nom=noms_fantomes[i],screen = window, image=image_fantome, joueur_a_attraper=joueur, instances=liste_fantomes)
     fantomes.add(fantome)
     liste_fantomes.append(fantome)
 # fantome = Fantome(nom="Joe", image=image_fantome, joueur_a_attraper=joueur)
@@ -55,6 +56,13 @@ def set_pause(event):
         pause = False
         print("Fin de la pause")
 
+def ask_quit():
+    "Demander au joueur s'il souhaite quitter le jeu"
+    quit = messagebox.askquestion("Quitter le jeu ?", "Souhaitez-vous quitter le jeu ?")
+    if quit == "yes":
+        return True
+    return False        
+
 
 def play_music():
     pygame.mixer.music.play(-1)
@@ -77,8 +85,9 @@ while running:
    # set_pause(keys)
 
     for evenement in pygame.event.get():  # Pour chaque évènement intercepté durant le jeu
-        if evenement.type == pygame.QUIT:  # Si le joueur veut quitter la partie
-            running = False
+        if evenement.type == pygame.QUIT or keys[pygame.K_ESCAPE]:  # Si le joueur veut quitter la partie
+            if ask_quit() == True:
+                running = False
 
         if evenement.type == pygame.KEYUP:
             if evenement.key == pygame.K_SPACE:
@@ -99,8 +108,8 @@ while running:
         for fantome in fantomes:
 
             fantome.move_direction()
-            fantome.afficher_nom(window)
-            fantome.draw(window)
+            fantome.afficher_nom()
+            fantome.draw()
 
     
         pygame.display.flip()

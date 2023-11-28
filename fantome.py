@@ -1,14 +1,18 @@
 # Fantôme
 import pygame
+pygame.init()
 from random import randint, random
 
 
 class Fantome(pygame.sprite.Sprite):
     "Fantôme qui doit attraper le joueur"
 
-    def __init__(self, nom, image, joueur_a_attraper, instances):
+    def __init__(self, nom,screen, image, joueur_a_attraper, instances):
         super().__init__()
+        self.screen = screen
+        self.time = pygame.time.get_ticks()
         self.joueur_a_attraper = joueur_a_attraper
+        self.repere_font = pygame.font.Font(None, 20)
         # Charger en mémoire l'image du fantôme
         self.image = pygame.image.load(image)
         self.image = pygame.transform.scale(self.image, (30, 30))
@@ -48,6 +52,7 @@ class Fantome(pygame.sprite.Sprite):
         if self.champ_vision_x >= 10 or self.champ_vision_y >= 10:
             if random() <= 0.8:  # 80 % de chances que le fantôme poursuive le joueur s'il le repère. Cela fait comme s'il le "perdait de vue" après un certain moment.
                 if self.rect.x != self.joueur_a_attraper.rect.x and self.rect.y != self.joueur_a_attraper.rect.y:
+                    self.afficher_message_joueur_repere()
                     print(f"{self.nom} vous a repéré !")
                     self.direction = self.joueur_a_attraper.direction
             else:
@@ -91,11 +96,21 @@ class Fantome(pygame.sprite.Sprite):
 
             print("champ de vision x:", self.champ_vision_x)
 
-    def afficher_nom(self, screen):
+    def afficher_nom(self):
         "Afficher le nom du fantôme"
         nom_fantome = self.nom_font.render(self.nom, True, (254, 254, 254))
-        screen.blit(nom_fantome, (self.rect.x, self.rect.y - 10))
+        self.screen.blit(nom_fantome, (self.rect.x, self.rect.y - 10))
 
-    def draw(self, screen):
-        screen.fill((0, 0, 0), self.rect)
-        screen.blit(self.image, (self.rect.x, self.rect.y))
+    def afficher_message_joueur_repere(self):
+        "Afficher un message pour indiquer au joueur qu'il est repéré"
+        duree_affichage = 3000 # Durée de l'affichage du message en millisecondes
+        if pygame.time.get_ticks() - self.time <= duree_affichage:
+            message = f"J'ai repéré {self.joueur_a_attraper.pseudo} !"
+            render_message = self.repere_font.render(message, False, (254, 254, 254))
+            self.screen.blit(render_message, (self.rect.x, self.rect.y - 25))
+
+        self.time = pygame.time.get_ticks()       
+
+    def draw(self):
+        self.screen.fill((0, 0, 0), self.rect)
+        self.screen.blit(self.image, (self.rect.x, self.rect.y))
