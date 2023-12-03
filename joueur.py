@@ -30,6 +30,7 @@ class Joueur(pygame.sprite.Sprite):
         pseudo = simpledialog.askstring(
             "Saisissez votre pseudo", "Renseignez votre pseudo:")  # Pseudo du joueur
         if pseudo == "" or pseudo == None:
+            messagebox.showinfo("Votre pseudo sera Joueur anonyme", "Etant donné que vous n'avez renseigné(e) aucun pseudo, vous aurez le pseudo temporaire 'Joueur anonyme'. Cela veut dire que les informations le concernant seront effacées lorsque quelqu'un d'autre n'aura saisit aucun pseudo. ")
             pseudo = "Joueur anonyme"
             supprimer_dossier_joueur(pseudo) # Détruire tout dossier d'un joueur anonyme précédent
 

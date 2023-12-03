@@ -20,7 +20,7 @@ window = pygame.display.set_mode((800, 600))  # Créer une fenêtre de jeu
 pygame.display.set_caption("Pacman !")
 
 image_joueur = "assets/images/pacman_droite.jpg"
-joueur = Joueur(image_joueur)  # Créer un joueur
+joueur = Joueur(image_joueur, )  # Créer un joueur
 image_fantome = "assets/images/ghost.png"
 
 noms_fantomes = ["Joe", "Jack", "William", "Averell"]
@@ -31,14 +31,17 @@ for i in range(len(noms_fantomes)):
         nom=noms_fantomes[i],screen = window, image=image_fantome, joueur_a_attraper=joueur, instances=liste_fantomes)
     fantomes.add(fantome)
     liste_fantomes.append(fantome)
+
+
 # fantome = Fantome(nom="Joe", image=image_fantome, joueur_a_attraper=joueur)
+labyrinthe = Labyrinthe(joueur,window, fantomes)
 
 
 running = True  # Le jeu est en cours d'exécution
 pause = False  # Le jeu est-il en pause ?
 
 
-def set_pause(event):
+def set_pause(event, unpause = True):
     "Mettre le jeu en pause"
     global pause
 
@@ -50,14 +53,15 @@ def set_pause(event):
         pause_text = pause_font.render(str_pause, True, (255, 255, 255))
         window.blit(pause_text, (300, 239))
         pygame.display.flip()
-
+    
     else:
-        window.fill((0, 0, 0))
-        pause = False
-        print("Fin de la pause")
+            window.fill((0, 0, 0))
+            pause = False
+            print("Fin de la pause")
 
-def ask_quit():
+def ask_quit(evenement):
     "Demander au joueur s'il souhaite quitter le jeu"
+    set_pause(evenement)
     quit = messagebox.askquestion("Quitter le jeu ?", "Souhaitez-vous quitter le jeu ?")
     if quit == "yes":
         return True
@@ -68,25 +72,30 @@ def play_music():
     pygame.mixer.music.play(-1)
 
 
-labyrinthe = Labyrinthe(joueur, liste_fantomes)
 
-pygame.display.update()
+
+#pygame.display.update()
 chemin_musique = "assets/musique/original_theme.mp3"
 pygame.mixer.music.load(chemin_musique)
 play_music()
 
+def update():
+    window.fill((0,0,0))
+
 
 while running:
+    
+
     pygame.time.set_timer(TIMER_EVENT, 500)
 
     keys = pygame.key.get_pressed()  # Obtenir toutes les touches pressées au clavier
-    # labyrinthe.hit_wall()
+    #labyrinthe.hit_wall()
 
    # set_pause(keys)
 
     for evenement in pygame.event.get():  # Pour chaque évènement intercepté durant le jeu
         if evenement.type == pygame.QUIT or keys[pygame.K_ESCAPE]:  # Si le joueur veut quitter la partie
-            if ask_quit() == True:
+            if ask_quit(evenement) == True:
                 running = False
 
         if evenement.type == pygame.KEYUP:
@@ -94,9 +103,11 @@ while running:
                 set_pause(evenement)
 
     if not pause:
-        window.fill((0, 0, 0))
+        update()
+
 
         labyrinthe.creer(window)
+        labyrinthe.block_move()
         
         joueur.display_pseudo(window)
 
@@ -112,5 +123,6 @@ while running:
             fantome.draw()
 
     
-        pygame.display.flip()
+        pygame.display.update()
+        
 

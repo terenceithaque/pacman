@@ -7,7 +7,7 @@ from random import randint, random
 class Fantome(pygame.sprite.Sprite):
     "Fantôme qui doit attraper le joueur"
 
-    def __init__(self, nom,screen, image, joueur_a_attraper, instances):
+    def __init__(self, nom, screen, image, joueur_a_attraper, instances):
         super().__init__()
         self.screen = screen
         self.time = pygame.time.get_ticks()
@@ -16,6 +16,7 @@ class Fantome(pygame.sprite.Sprite):
         # Charger en mémoire l'image du fantôme
         self.image = pygame.image.load(image)
         self.image = pygame.transform.scale(self.image, (30, 30))
+        
         self.rect = self.image.get_rect()
         self.x = 0  # Position de départ x du fantôme
         self.y = 0  # Position de départ y du fantôme
@@ -67,7 +68,7 @@ class Fantome(pygame.sprite.Sprite):
             if self.rect.y < 0:
                 self.rect.y = 0
             self.champ_vision_y = self.joueur_a_attraper.rect.y - self.rect.y
-            print("champ de vision y:", self.champ_vision_y)
+            #print("champ de vision y:", self.champ_vision_y)
 
         if self.direction == -2:
             self.rect.y += pas
@@ -76,7 +77,7 @@ class Fantome(pygame.sprite.Sprite):
 
             self.champ_vision_y = self.joueur_a_attraper.rect.y - self.rect.y
 
-            print("champ de vision y:", self.champ_vision_y)
+           # print("champ de vision y:", self.champ_vision_y)
 
         if self.direction == -1:
             self.rect.x -= pas
@@ -85,7 +86,7 @@ class Fantome(pygame.sprite.Sprite):
 
             self.champ_vision_x = self.joueur_a_attraper.rect.x - self.rect.x
 
-            print("champ de vision x:", self.champ_vision_x)
+            #print("champ de vision x:", self.champ_vision_x)
 
         if self.direction == 1:
             self.rect.x += pas
@@ -94,7 +95,7 @@ class Fantome(pygame.sprite.Sprite):
 
             self.champ_vision_x = self.joueur_a_attraper.rect.x - self.rect.x
 
-            print("champ de vision x:", self.champ_vision_x)
+            #print("champ de vision x:", self.champ_vision_x)
 
     def afficher_nom(self):
         "Afficher le nom du fantôme"
